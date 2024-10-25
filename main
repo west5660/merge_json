@@ -1,0 +1,22 @@
+import json
+from pathlib import Path
+
+def merge_json_files(input_dir: str, output_file: str) -> None:
+    input_path = Path(input_dir)
+    if not input_path.exists() or not input_path.is_dir():
+        raise FileNotFoundError(f'Папка {input_dir} не существует или не является директорией.')
+
+    merged_data = []
+    for json_file in input_path.glob('*.json'):
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            merged_data.append(data)
+
+    with open(output_file, 'w', encoding='utf-8') as f:
+        json.dump(merged_data, f, indent=4, ensure_ascii=False)
+
+    print(f'Объединенные данные записаны в {output_file}')
+if __name__ == "__main__":
+    input_dir = 'C:\\Users\\21587168\\Desktop\\learning_komlev\\merge_json\\in' # Укажите путь к папке с JSON-файлами
+    output_file = 'C:\\Users\\21587168\\Desktop\\learning_komlev\\merge_json\\merged_output.json'  # Укажите путь к выходному JSON-файлу
+    merge_json_files(input_dir, output_file)
